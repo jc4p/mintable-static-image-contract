@@ -99,6 +99,7 @@ Get an API key at https://basescan.org/ and add to `.env`:
 
 ```
 BASESCAN_API_KEY=your_api_key_here
+CONTRACT_ADDRESS=0x...
 ```
 
 Verify (Base mainnet chain id 8453, compiler v0.8.28 as used by this repo):
@@ -115,23 +116,16 @@ forge verify-contract \
 
 ## Interacting with the Contract (cast)
 
-Set your variables:
-
-```shell
-export CONTRACT=<deployed_contract_address>
-unset TO # not needed for mint()
-```
-
 - Read the mint price (wei):
 
 ```shell
-cast call $CONTRACT "MINT_PRICE()(uint256)" --rpc-url $RPC_URL
+cast call $CONTRACT_ADDRESS "MINT_PRICE()(uint256)" --rpc-url $RPC_URL
 ```
 
 - Mint an NFT (public): requires exact payment of 0.0005 ETH; token IDs auto‑increment from 1.
 
 ```shell
-cast send $CONTRACT "mint()" \
+cast send $CONTRACT_ADDRESS "mint()" \
   --value 0.0005ether \
   --rpc-url $RPC_URL \
   --private-key $PRIVATE_KEY
@@ -140,25 +134,25 @@ cast send $CONTRACT "mint()" \
 - Check ownership of a token:
 
 ```shell
-cast call $CONTRACT "ownerOf(uint256)(address)" 1 --rpc-url $RPC_URL
+cast call $CONTRACT_ADDRESS "ownerOf(uint256)(address)" 1 --rpc-url $RPC_URL
 ```
 
 - Read the token URI (same for all tokens; reverts if token does not exist):
 
 ```shell
-cast call $CONTRACT "tokenURI(uint256)(string)" 1 --rpc-url $RPC_URL
+cast call $CONTRACT_ADDRESS "tokenURI(uint256)(string)" 1 --rpc-url $RPC_URL
 ```
 
 - Check the contract’s ETH balance:
 
 ```shell
-cast balance $CONTRACT --rpc-url $RPC_URL
+cast balance $CONTRACT_ADDRESS --rpc-url $RPC_URL
 ```
 
 - Withdraw funds (owner only): sends the entire contract balance to the owner.
 
 ```shell
-cast send $CONTRACT "withdraw()" \
+cast send $CONTRACT_ADDRESS "withdraw()" \
   --rpc-url $RPC_URL \
   --private-key $PRIVATE_KEY
 ```
