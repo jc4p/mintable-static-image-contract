@@ -1,0 +1,5 @@
+{
+  "name": "NFT Name",
+  "description": "Description of the NFT.", 
+  "image": "ipfs://{CID_TO_IMAGE_FILE}/"
+}
